@@ -1,0 +1,17 @@
+# Imagem base do Java 21
+FROM openjdk:21-jdk-slim
+
+# Diretório de trabalho dentro do container
+WORKDIR /app
+
+# Copia o arquivo pom.xml e o código-fonte
+COPY . .
+
+# Compila o projeto
+RUN ./mvnw clean package -DskipTests
+
+# Expõe a porta que o serviço usa
+EXPOSE 8081
+
+# Comando para iniciar o app
+ENTRYPOINT ["java", "-jar", "target/email-service-0.0.1-SNAPSHOT.jar"]
