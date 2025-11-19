@@ -1,0 +1,36 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: email-app
+  datasource:
+    username: admin    # usuario banco
+    password: admin    # senha banco
+    url: jdbc:mysql://mysql:3306/email_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  sql:
+    init:
+      mode: never
+
+  # Configura��o do servidor de e-mail (Mailtrap)
+  mail:
+    host: "sandbox.smtp.mailtrap.io"
+    port: 2525
+    username: fc36684f734a82
+    password: fe1385d9c164cb
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# Registro no Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
