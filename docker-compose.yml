@@ -16,6 +16,19 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    networks:
+      - backend
+
+  #  # Eureka Server
+  #  eureka-server:
+  #    build:
+  #      context: ./eureka-server
+  #      dockerfile: Dockerfile
+  #    container_name: eureka-server
+  #    ports:
+  #      - "8761:8761"
+  #    networks:
+  #      - backend
 
   app:
     build: .
@@ -23,14 +36,21 @@ services:
     depends_on:
       mysql:
         condition: service_healthy  # espera o MySQL ficar pronto
-    ports:
-      - "8083:8083"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/email_db
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
+#      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    ports:
+      - "8083:8083"
+    networks:
+      - backend
 
 volumes:
   mysql_data:
 
+# Rede interna dos containers
+networks:
+  backend:
+    driver: bridge
 # imagem mysql para copia dockerHub https://hub.docker.com/_/mysql
